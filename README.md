@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # InnOpEx Governance Platform · GMSA
 
 Plataforma de governança de projetos OpEx e Inovação da GMSA.
@@ -102,3 +103,6 @@ pelo Databricks é trocar **uma peça**, sem mexer nas telas.
 - Dados ilustrativos; nada é gravado no SharePoint e nenhum e-mail é enviado.
 - O upload de deck registra só o nome e a versão (o arquivo em si vai para a biblioteca do SharePoint na integração).
 - Gráficos usam a biblioteca ECharts via internet (CDN). Sem internet, aparece um aviso no lugar.
+=======
+# innopex-platform
+>>>>>>> d0e24984992ae85d1af58ea347907f5c4d1eed79
