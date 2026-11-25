@@ -1,0 +1,9 @@
+# Databricks Apps — usado só quando a plataforma for publicada.
+command: ["python", "-m", "app.main"]
+env:
+  - name: AUTH_MODE
+    value: "databricks"
+  - name: DATA_MODE
+    value: "mock"        # troque para "databricks" quando a camada gold estiver pronta
+  - name: ALLOWED_DOMAIN
+    value: "gm.com"

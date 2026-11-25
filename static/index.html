@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InnOpEx — Plataforma de Governança GMSA</title>
+<link rel="icon" href="/static/img/nopex-small.png">
+<link rel="stylesheet" href="/static/css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="46" height="46" viewBox="0 0 48 48" role="img" aria-label="InnOpEx">
+        <rect x="1" y="1" width="46" height="46" rx="12" fill="#ffffff"/>
+        <path d="M24 7 L41 24 L24 41 L7 24 Z" fill="#0877b9"/>
+        <path d="M24 13.5 L34.5 24 L24 34.5 L13.5 24 Z" fill="#062b49"/>
+        <circle cx="24" cy="24" r="5" fill="#b7d334"/>
+      </svg>
+      <div>
+        <strong style="font-size:19px;letter-spacing:-.01em">Inn<span style="color:#b7d334">OpEx</span></strong>
+        <span class="brand-sub">Governance Platform · GMSA</span>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="user" id="user-box" title="Trocar perfil / sair" style="display:none">
+      <span class="avatar" id="u-ini">JV</span>
+      <div><span id="u-name">Julia Viterbo</span><small id="u-role">SSO GM</small></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap" id="app">
+
+  <!-- ===================== LOGIN ===================== -->
+  <div class="view" id="v-login">
+    <div class="login">
+      <div class="panel">
+        <span class="eyebrow">Acesso corporativo</span>
+        <h1>Entrar no InnOpEx</h1>
+        <p>Login único com Microsoft Entra ID. Somente contas <b>@gm.com</b> têm acesso.
+           Em desenvolvimento você escolhe o perfil para ver o que cada pessoa enxerga.</p>
+        <div class="form">
+          <div class="full"><label for="l-name">Nome</label><input id="l-name" value="Julia Viterbo"></div>
+          <div class="full"><label for="l-mail">E-mail corporativo</label><input id="l-mail" value="julia.viterbomoreira@gm.com"></div>
+          <div class="full"><label for="l-role">Perfil</label>
+            <select id="l-role">
+              <option value="Admin">Admin — configura prazos e perfis</option>
+              <option value="Master">Master — responsável único pelo projeto</option>
+              <option value="Leader">Leader — líder do projeto</option>
+              <option value="Viewer">Viewer — somente leitura</option>
+            </select></div>
+        </div>
+        <button class="btn btn-primary ms-btn" id="l-go" type="button">
+          <svg width="16" height="16" viewBox="0 0 21 21" aria-hidden="true"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect y="11" width="10" height="10" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg>
+          Entrar com Microsoft (SSO GM)
+        </button>
+        <div class="err" id="l-err"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== PORTFÓLIO ===================== -->
+  <div class="view" id="v-portfolio">
+    <div class="pagehead">
+      <span class="eyebrow">Ambiente de desenvolvimento · dados ilustrativos</span>
+      <h1>Portfólio de projetos GMSA</h1>
+      <p>Visão única de OpEx e Inovação alimentada pelo OpEx Global e pela base local Growth Project,
+         tratada no Databricks e exposta por API Python. Arraste os cards para mudar a fase DMAIC.</p>
+      <div class="quicklinks">
+        <a href="#/fontes">Fontes e metodologia</a>
+        <a href="#/cronograma">Fila de governança (terças)</a>
+        <a href="#/notificacoes" id="ql-alerts">alertas abertos</a>
+      </div>
+    </div>
+    <section style="padding-top:20px">
+      <div class="kpis">
+        <div class="kpi accent">
+          <div class="lab">Projetos ativos <span class="info" tabindex="0">i<span class="tip">Contagem de projetos GMSA com fase diferente de encerrado nas duas fontes (OpEx Global + Growth Project), atualizado na carga diária do Databricks.</span></span></div>
+          <div class="val" id="kpi-ativos">0</div><div class="delta" id="kpi-ativos-d"></div>
+        </div>
+        <div class="kpi">
+          <div class="lab">Blue Value total <span class="info" tabindex="0">i<span class="tip">Soma do campo <b>Blue Value ($M)</b> da lista Growth Project mais o <b>Project 3 Year Value ($MM)</b> do OpEx Global, convertido para US$ milhões.</span></span></div>
+          <div class="val" id="kpi-blue">—</div><div class="delta">Soma Blue Value + 3 Year Value</div>
+        </div>
+        <div class="kpi">
+          <div class="lab">Green Value previsto <span class="info" tabindex="0">i<span class="tip">Soma do campo <b>Green Value ($M)</b> (potencial não validado) dos projetos de Inovação; usado como teto de ambição, não como meta financeira.</span></span></div>
+          <div class="val" id="kpi-green">—</div><div class="delta">Campo separado, fora do total</div>
+        </div>
+        <div class="kpi">
+          <div class="lab">Materiais desatualizados <span class="info" tabindex="0">i<span class="tip">Projetos cujo campo <b>Last Update</b> está há mais de 30 dias sem alteração. Dispara notificação automática para líder e Master.</span></span></div>
+          <div class="val" id="kpi-stale">0</div><div class="delta">Regra: 30 dias sem alteração</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input type="search" id="q" placeholder="Buscar por nome, ID do projeto ou Master…" aria-label="Buscar projeto">
+        <select id="f-master" aria-label="Filtrar por Master"><option value="">Todos os Masters</option></select>
+        <select id="f-tipo" aria-label="Filtrar por tipo">
+          <option value="">Opex e Inovação</option><option value="Opex">Opex</option><option value="Inovação">Inovação</option>
+        </select>
+        <select id="f-fase" aria-label="Filtrar por fase">
+          <option value="">Todas as fases DMAIC</option>
+          <option>Define</option><option>Measure</option><option>Analyze</option><option>Improve</option><option>Control</option>
+        </select>
+        <button class="btn btn-ghost" type="button" id="vw-k" aria-pressed="true">Kanban</button>
+        <button class="btn btn-ghost" type="button" id="vw-l" aria-pressed="false">Lista</button>
+        <button class="btn btn-primary" type="button" id="btn-new">+ Novo projeto</button>
+      </div>
+
+      <div id="pf-kanban">
+        <div class="kanban" id="kanban"></div>
+        <p class="hint" id="kanban-hint">Arraste e solte um card em outra coluna para mudar a fase — cada movimento grava autor,
+           data/hora e fase anterior no histórico, e sincroniza de volta com o SharePoint Global.</p>
+      </div>
+      <div id="pf-lista" style="display:none">
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>ID</th><th>Projeto</th><th>Tipo</th><th>Fase</th><th>Master</th>
+              <th>Status</th><th style="text-align:right">Valor (US$M)</th><th>Próxima reunião</th></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== DETALHE ===================== -->
+  <div class="view" id="v-projeto"></div>
+
+  <!-- ===================== INDICADORES ===================== -->
+  <div class="view" id="v-indicadores">
+    <section>
+      <div class="sec-head"><div>
+        <span class="eyebrow">Dashboard executivo</span>
+        <h2>Indicadores do portfólio</h2>
+        <p>Onde o portfólio está concentrado, quem carrega mais valor e como o funil DMAIC avança.</p>
+      </div></div>
+      <div class="charts">
+        <div class="panel"><h3>Projetos por fase DMAIC <span class="info" tabindex="0">i<span class="tip">Contagem de projetos por fase DMAIC derivada do campo <b>Current Phase</b> (Growth Project) e das datas ECD por fase do OpEx Global.</span></span></h3>
+          <p class="sub">Atualiza na hora quando você move um card no Kanban</p><div class="chart" id="c-fase"></div></div>
+        <div class="panel"><h3>Blue Value por Master <span class="info" tabindex="0">i<span class="tip">Soma de Blue Value por <b>InnOpEx Master</b> / <b>OpEx Master</b>. Master é responsável único por projeto, então não há dupla contagem.</span></span></h3>
+          <p class="sub">US$ M</p><div class="chart" id="c-master"></div></div>
+        <div class="panel"><h3>Opex x Inovação <span class="info" tabindex="0">i<span class="tip">Tipo inferido pela lista de origem: Projects (OpEx Global) = Opex; Growth Project (GMSA) = Inovação.</span></span></h3>
+          <p class="sub">Quantidade de projetos e valor por tipo</p><div class="chart" id="c-tipo"></div></div>
+        <div class="panel"><h3>Status semafórico do portfólio <span class="info" tabindex="0">i<span class="tip">Distribuição do campo <b>Current Project Status</b> (G / Y / R) do OpEx Global combinado ao <b>Help Needed</b> da base local.</span></span></h3>
+          <p class="sub">No prazo · Atenção · Crítico</p><div class="chart" id="c-status"></div></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== DECKS ===================== -->
+  <div class="view" id="v-decks">
+    <section>
+      <div class="sec-head">
+        <div><span class="eyebrow">Repositório</span><h2>Decks e documentos dos projetos</h2>
+          <p>Toda apresentação fica versionada no projeto. Quando o projeto entra no cronograma,
+             o deck sobe automaticamente para destaque na semana da reunião.</p></div>
+        <button class="btn btn-ghost" type="button" id="btn-upload">Enviar documento</button>
+      </div>
+      <div class="grid3" id="decks-grid"></div>
+    </section>
+  </div>
+
+  <!-- ===================== CRONOGRAMA ===================== -->
+  <div class="view" id="v-cronograma">
+    <section>
+      <div class="sec-head"><div>
+        <span class="eyebrow">Fila de governança</span><h2>Cronograma das reuniões de terça</h2>
+        <p>Depois de cada reunião, Meeting Notes e intervalo de retorno são obrigatórios. A plataforma calcula
+           a próxima terça livre e propõe a data ao líder, que aceita ou recusa.</p></div>
+      </div>
+      <div id="pend"></div>
+      <div class="timeline" id="timeline"></div>
+    </section>
+  </div>
+
+  <!-- ===================== NOTIFICAÇÕES ===================== -->
+  <div class="view" id="v-notificacoes">
+    <section>
+      <div class="sec-head">
+        <div><span class="eyebrow">Central de avisos</span><h2>Notificações</h2>
+          <p>Tudo que aparece aqui também é enviado por e-mail para o líder e o Master do projeto.</p></div>
+        <button class="btn btn-ghost" type="button" id="btn-readall">Marcar todas como lidas</button>
+      </div>
+      <div class="notif" id="notif-list"></div>
+    </section>
+  </div>
+
+  <!-- ===================== ADMIN ===================== -->
+  <div class="view" id="v-admin">
+    <section>
+      <div class="sec-head"><div>
+        <span class="eyebrow">Administração</span><h2>Perfis, prazos e regras</h2>
+        <p>Somente o perfil Admin vê esta tela. Os parâmetros alimentam as automações da plataforma.</p></div>
+      </div>
+      <div class="charts">
+        <div class="panel"><h3>Parâmetros das automações</h3><p class="sub">Alterações ficam registradas com autor</p>
+          <div class="form">
+            <div><label for="p-stale">Alerta de material parado (dias)</label><input id="p-stale" type="number" min="1"></div>
+            <div><label for="p-cap">Máx. de projetos por terça</label><input id="p-cap" type="number" min="1"><div class="help">Valor provisório — a confirmar</div></div>
+            <div><label for="p-hora">Horário da reunião</label><input id="p-hora" type="time"></div>
+            <div><label for="p-slot">Minutos por projeto</label><input id="p-slot" type="number" min="5"></div>
+          </div>
+          <div class="form-actions"><button class="btn btn-primary" id="p-save" type="button">Salvar parâmetros</button></div>
+        </div>
+        <div class="panel"><h3>Decisões pendentes</h3><p class="sub">Precisam de confirmação antes da versão final</p>
+          <div class="notif" id="pend-dec"></div></div>
+      </div>
+      <div class="tablewrap mt">
+        <table><thead><tr><th>Pessoa</th><th>E-mail</th><th>Perfil</th><th>Pode fazer</th></tr></thead><tbody id="users"></tbody></table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== FONTES ===================== -->
+  <div class="view" id="v-fontes">
+    <section>
+      <div class="sec-head"><div><span class="eyebrow">Transparência</span><h2>Fontes e metodologia</h2>
+        <p>Como os números desta tela são produzidos, em linguagem de negócio.</p></div></div>
+      <details class="src" open>
+        <summary>De onde vêm os dados</summary>
+        <p>Duas fontes oficiais alimentam a plataforma, sem digitação paralela:</p>
+        <ul>
+          <li><b>OpEx Global</b> — lista <i>Projects</i> do SharePoint corporativo, usada por toda a GM.
+              Dela vêm charter, metodologia, aprovações, impactos financeiros por ano e as datas ECD de cada fase DMAIC.</li>
+          <li><b>Growth Project (local GMSA)</b> — lista do site Growth Projects Management.
+              Dela vêm Horizonte, Blue/Green Value, fases de inovação, Core Team, InnOpEx Master e Meeting Notes.</li>
+        </ul>
+        <p>A carga roda uma vez por dia (e sob demanda) em um job do Databricks, filtrando apenas registros GMSA.
+           A plataforma nunca é fonte primária de dados financeiros: ela lê, consolida e devolve as alterações
+           de governança para o SharePoint de origem.</p>
+        <p style="margin-top:10px"><b>Desenvolvimento:</b> os números são ilustrativos (modo <span id="data-mode">mock</span>).
+           Os dados ficam em <code>data/state.json</code>; nada é gravado no SharePoint nem enviado por e-mail.</p>
+        <details style="margin-top:12px">
+          <summary style="cursor:pointer;font-weight:600;font-size:13px">Ver consulta de exemplo (Databricks SQL)</summary>
+<pre>SELECT p.project_id, p.name, p.project_type, p.phase, p.master,
+       p.blue_value_musd, p.last_update, p.next_review
+FROM   innopex.silver.projects p
+WHERE  p.region = 'GMSA'
+  AND  p.is_active
+ORDER BY p.phase, p.blue_value_musd DESC;</pre>
+        </details>
+      </details>
+    </section>
+  </div>
+
+  <footer class="pg">
+    InnOpEx Governance Platform · v<span id="app-version">0.1.0</span> · ambiente de desenvolvimento ·
+    identidade visual InnOpEx (navy #062b49 · azul #0877b9 · lima #b7d334) ·
+    <a href="#" id="btn-reset">reiniciar demonstração</a>
+  </footer>
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal-bg" id="modal-bg"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+
+<!-- ===================== NOPEX ===================== -->
+<div id="nopex-greet" class="hide">
+  <b id="greet-t">Oi! Eu sou o Nopex 👋</b>
+  <span>Posso achar um projeto, resumir a pauta de terça ou avisar quem está com material atrasado.</span>
+</div>
+<button id="nopex-launcher" type="button" aria-label="Abrir assistente Nopex" style="display:none">
+  <img src="/static/img/nopex-small.png" alt="Nopex">
+</button>
+<aside id="nopex-panel" role="dialog" aria-label="Assistente Nopex">
+  <header>
+    <img src="/static/img/nopex.png" alt="">
+    <div><b>Nopex</b><small>Assistente InnOpEx · sempre disponível</small></div>
+    <button type="button" id="np-close" aria-label="Fechar">&times;</button>
+  </header>
+  <div class="np-body" id="np-body"></div>
+  <div class="np-sug">
+    <button type="button" data-q="Quais projetos estão sem atualização há mais de 30 dias?">Quais projetos estão atrasados?</button>
+    <button type="button" data-q="Monte a pauta da próxima terça">Montar a pauta da próxima terça</button>
+    <button type="button" data-q="Qual o Blue Value por Master?">Blue Value por Master</button>
+  </div>
+  <div class="np-foot">
+    <input id="np-input" placeholder="Pergunte algo ao Nopex…" aria-label="Mensagem para o Nopex">
+    <button type="button" id="np-send">Enviar</button>
+  </div>
+</aside>
+
+<script src="/static/js/api.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

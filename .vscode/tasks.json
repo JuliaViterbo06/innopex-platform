@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "InnOpEx: instalar dependências",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe -m pip install -r requirements-dev.txt",
+      "problemMatcher": []
+    },
+    {
+      "label": "InnOpEx: reiniciar dados de exemplo",
+      "type": "shell",
+      "command": "Remove-Item -ErrorAction SilentlyContinue data/state.json; echo 'Dados reiniciados'",
+      "options": { "shell": { "executable": "powershell.exe" } },
+      "problemMatcher": []
+    }
+  ]
+}

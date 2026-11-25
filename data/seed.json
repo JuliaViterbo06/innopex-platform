@@ -1,0 +1,291 @@
+{
+  "_leia_me": "Dados ILUSTRATIVOS para desenvolvimento. Datas são relativas a hoje (days_ago / tuesday = índice da próxima terça). E-mails de exemplo.",
+  "config": {
+    "stale_days": 30,
+    "max_per_tuesday": 4,
+    "meeting_time": "14:00",
+    "minutes_per_project": 20
+  },
+  "sequence": 20000,
+  "users": [
+    {
+      "name": "Julia Viterbo",
+      "email": "julia.viterbomoreira@gm.com",
+      "role": "Admin"
+    },
+    {
+      "name": "Silvia Marsiglia",
+      "email": "silvia.marsiglia@gm.com",
+      "role": "Master"
+    },
+    {
+      "name": "Luis Mangone",
+      "email": "luis.mangone@gm.com",
+      "role": "Master"
+    },
+    {
+      "name": "Francisco Cardin",
+      "email": "francisco.cardin@gm.com",
+      "role": "Master"
+    },
+    {
+      "name": "Cristian Ornelas Ruiz",
+      "email": "cristian.ruiz@gm.com",
+      "role": "Leader"
+    },
+    {
+      "name": "Convidado",
+      "email": "convidado@gm.com",
+      "role": "Viewer"
+    }
+  ],
+  "projects": [
+    {
+      "id": "GP-330",
+      "name": "GMSA Armored Vehicles PMO",
+      "type": "Inovação",
+      "source": "Growth Project",
+      "phase": "Analyze",
+      "master": "Silvia Marsiglia",
+      "leader": "Luis Felipe Teixeira",
+      "value_musd": 4.5,
+      "green_musd": 15,
+      "status": "y",
+      "last_update_days_ago": 41,
+      "summary": "Aceleração do programa de blindados com PMO dedicado e revisão do fluxo de atendimento.",
+      "meeting": {
+        "tuesday": 2,
+        "state": "reagendado",
+        "note": "Recusado para {prev} por conflito de agenda · realocado automaticamente"
+      },
+      "decks": [
+        {
+          "file_type": "PDF",
+          "name": "Governance Plan",
+          "version": 2,
+          "author": "Silvia Marsiglia",
+          "days_ago": 41
+        }
+      ]
+    },
+    {
+      "id": "GP-064",
+      "name": "GM BEES",
+      "type": "Inovação",
+      "source": "Growth Project",
+      "phase": "Improve",
+      "master": "Luis Mangone",
+      "leader": "Ana Paula Ribeiro",
+      "value_musd": 12.0,
+      "green_musd": 30,
+      "status": "g",
+      "last_update_days_ago": 2,
+      "summary": "Compra conjunta de peças por concessionárias usando negociação de alto volume.",
+      "meeting": {
+        "tuesday": 0,
+        "state": "confirmado"
+      },
+      "decks": [
+        {
+          "file_type": "PPTX",
+          "name": "MVP Validation",
+          "version": 9,
+          "author": "Luis Mangone",
+          "days_ago": 1
+        }
+      ],
+      "notes": [
+        {
+          "days_ago": 28,
+          "text": "MVP aprovado com 12 dealers; próximo passo é escalar para a rede Sul.",
+          "return_weeks": 4,
+          "author": "Luis Mangone"
+        }
+      ]
+    },
+    {
+      "id": "GP-342",
+      "name": "GMSA Self Energy",
+      "type": "Inovação",
+      "source": "Growth Project",
+      "phase": "Define",
+      "master": "Silvia Marsiglia",
+      "leader": "Marcos Albuquerque",
+      "value_musd": 0,
+      "green_musd": 18,
+      "status": "g",
+      "last_update_days_ago": 3,
+      "summary": "Autoprodução de energia para as plantas, com seleção de parceiro e MOU.",
+      "meeting": {
+        "tuesday": 0,
+        "state": "confirmado"
+      },
+      "decks": [
+        {
+          "file_type": "PPTX",
+          "name": "Concept",
+          "version": 4,
+          "author": "Silvia Marsiglia",
+          "days_ago": 3
+        }
+      ]
+    },
+    {
+      "id": "GP-034",
+      "name": "Connectivity SGMW",
+      "type": "Inovação",
+      "source": "Growth Project",
+      "phase": "Control",
+      "master": "Luis Mangone",
+      "leader": "Renata Gomes",
+      "value_musd": 8.0,
+      "green_musd": 0,
+      "status": "g",
+      "last_update_days_ago": 7,
+      "summary": "Conectividade OnStar para veículos não-GM via parceria regional.",
+      "meeting": {
+        "tuesday": 1,
+        "state": "aguardando"
+      },
+      "decks": [
+        {
+          "file_type": "PPTX",
+          "name": "Control Plan",
+          "version": 5,
+          "author": "Luis Mangone",
+          "days_ago": 7
+        }
+      ]
+    },
+    {
+      "id": "GP-184",
+      "name": "RESS Certificate",
+      "type": "Inovação",
+      "source": "Growth Project",
+      "phase": "Improve",
+      "master": "Luis Mangone",
+      "leader": "Pedro Henrique Lima",
+      "value_musd": 0.8,
+      "green_musd": 0,
+      "status": "r",
+      "last_update_days_ago": 36,
+      "missing_notes": true,
+      "summary": "Certificado de saúde da bateria gerado no dealer para clientes de veículos elétricos.",
+      "decks": [
+        {
+          "file_type": "PPTX",
+          "name": "Handover",
+          "version": 3,
+          "author": "Luis Mangone",
+          "days_ago": 36
+        }
+      ]
+    },
+    {
+      "id": "OP-6132",
+      "name": "Inventory Count Frequencies",
+      "type": "Opex",
+      "source": "OpEx Global",
+      "phase": "Measure",
+      "master": "Francisco Cardin",
+      "leader": "Cristian Ornelas Ruiz",
+      "value_musd": 0.063,
+      "green_musd": 0,
+      "status": "y",
+      "last_update_days_ago": 11,
+      "summary": "Reestruturação das frequências de contagem de inventário, liberando um operador.",
+      "meeting": {
+        "tuesday": 1,
+        "state": "aguardando"
+      },
+      "decks": [
+        {
+          "file_type": "DOCX",
+          "name": "Project Charter",
+          "version": 1,
+          "author": "Francisco Cardin",
+          "days_ago": 6
+        }
+      ]
+    },
+    {
+      "id": "OP-10484",
+      "name": "SLP Rear Floor Pallet",
+      "type": "Opex",
+      "source": "OpEx Global",
+      "phase": "Analyze",
+      "master": "Francisco Cardin",
+      "leader": "Juliana Prado",
+      "value_musd": 0.049,
+      "green_musd": 0,
+      "status": "g",
+      "last_update_days_ago": 11,
+      "summary": "Dispositivo mestre de medição do Rear Floor SUB ASM para reduzir tempo de medição.",
+      "meeting": {
+        "tuesday": 2,
+        "state": "aguardando"
+      },
+      "decks": [
+        {
+          "file_type": "XLSX",
+          "name": "Measurement Study",
+          "version": 2,
+          "author": "Francisco Cardin",
+          "days_ago": 11
+        }
+      ]
+    },
+    {
+      "id": "OP-9377",
+      "name": "Degreaser Dilution Optimization",
+      "type": "Opex",
+      "source": "OpEx Global",
+      "phase": "Control",
+      "master": "Francisco Cardin",
+      "leader": "Thiago Moreira",
+      "value_musd": 0.003,
+      "green_musd": 0,
+      "status": "g",
+      "last_update_days_ago": 4,
+      "summary": "Troca e diluição do desengraxante para reduzir custo por litro em cerca de 28%.",
+      "meeting": {
+        "tuesday": 0,
+        "state": "confirmado"
+      },
+      "decks": [
+        {
+          "file_type": "XLSX",
+          "name": "Benefit Model",
+          "version": 1,
+          "author": "Francisco Cardin",
+          "days_ago": 9
+        }
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "kind": "alert",
+      "title": "RESS Certificate sem Meeting Notes da última reunião",
+      "text": "Bloqueia o agendamento da próxima terça até o preenchimento",
+      "hours_ago": 15,
+      "project_id": "GP-184"
+    },
+    {
+      "kind": "move",
+      "title": "Connectivity SGMW mudou de Improve para Control",
+      "text": "Autor: Luis Mangone · histórico e sincronização com o Global registrados",
+      "hours_ago": 72,
+      "read": true,
+      "project_id": "GP-034"
+    },
+    {
+      "kind": "mail",
+      "title": "Proposta de data enviada: Inventory Count Frequencies em {t1}",
+      "text": "Aguardando aceite do líder Cristian Ornelas Ruiz",
+      "hours_ago": 80,
+      "read": true,
+      "project_id": "OP-6132"
+    }
+  ]
+}
